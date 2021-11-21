@@ -38,40 +38,40 @@ public class HelloController {
     public User getPerson(){
         return new User();
     }
-    @GetMapping("/people")
+    @GetMapping("/users")
     public String index(Model model){
-        model.addAttribute("people",dao.getAllUsers());
+        model.addAttribute("users",dao.getAllUsers());
         return "view/index";
     }
 
-    @PostMapping("/people")
+    @PostMapping("/users")
     public String creat(@ModelAttribute("newUser")@Valid User user,
                         BindingResult bindingResult,Model model) {
         if (bindingResult.hasErrors()){
-            model.addAttribute("people",dao.getAllUsers());
+            model.addAttribute("users",dao.getAllUsers());
             return "view/index";
         }
         dao.saveUser(user);
-        return "redirect:people";
+        return "redirect:users";
     }
 
-    @DeleteMapping("/people/{id}")
+    @DeleteMapping("/users/{id}")
     public String deletePerson(@PathVariable("id") int id){
         dao.removeUserById(id);
-        return "redirect:/people";
+        return "redirect:/users";
     }
-    @GetMapping("/people/{id}/edit")
+    @GetMapping("/users/{id}/edit")
     public String edit(@ModelAttribute("id") int id,Model model){
         model.addAttribute("user",dao.getUserById(id));
         return "view/edit";
     }
 
-    @PatchMapping("/people/{id}")
+    @PatchMapping("/users/{id}")
     public String updatePerson(@ModelAttribute("user")@Valid User updateUser, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "view/edit";
         }
         dao.updateUser(updateUser);
-        return "redirect:/people";
+        return "redirect:/users";
     }
 }
